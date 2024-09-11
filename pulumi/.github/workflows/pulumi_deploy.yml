@@ -10,47 +10,39 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      # Checkout en la raíz del repositorio
       - uses: actions/checkout@v2
 
-      # Configurar Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '16'
 
-      # Instalar dependencias en el directorio de Pulumi
       - name: Install Dependencies
         run: npm install
         working-directory: pulumi
 
-      # Compilar TypeScript
       - name: Build TypeScript
         run: npm run build
         working-directory: pulumi
 
-      # Listar el contenido para confirmar la ubicación de index.js
       - name: List Directory Contents
         run: ls -R
         working-directory: pulumi/dist
 
-      # Login en Pulumi
       - name: Login to Pulumi
         run: pulumi login --non-interactive --cloud-url https://api.pulumi.com
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
         working-directory: pulumi
 
-      # Seleccionar el stack de Pulumi
       - name: Select Pulumi Stack
         run: pulumi stack select rodrilapenta/rog-ally-game-profiles/dev
         working-directory: pulumi
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
 
-      # Ejecutar Pulumi Up
       - name: Pulumi Up
         run: pulumi up --yes
-        working-directory: pulumi/dist  # Asegúrate de que esta ruta sea correcta
+        working-directory: pulumi/dist
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
