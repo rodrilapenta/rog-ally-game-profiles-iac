@@ -1,6 +1,5 @@
 
 name: rog-ally-game-profiles
-runtime: nodejs
 runtime:
   name: nodejs
   options:
