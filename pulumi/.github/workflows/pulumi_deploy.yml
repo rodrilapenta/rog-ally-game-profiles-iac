@@ -10,37 +10,44 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      # Realizar checkout del repositorio en la raíz para evitar rutas duplicadas
+      # Checkout en la raíz del repositorio para evitar rutas duplicadas
       - uses: actions/checkout@v2
+        with:
+          path: pulumi  # Cambia esto si prefieres que clone en un subdirectorio llamado 'pulumi'
 
-      # Mover al directorio correcto para todas las acciones subsecuentes
+      # Configurar Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '14'
 
+      # Instalar dependencias en el directorio correcto
       - name: Install Dependencies
         run: npm install
-        working-directory: pulumi  # Esto asegura que npm instale en la carpeta correcta
+        working-directory: pulumi  # Asegúrate de que esto esté configurado correctamente
 
+      # Compilar TypeScript
       - name: Build TypeScript
         run: npm run build
-        working-directory: pulumi  # Compila en la carpeta correcta
+        working-directory: pulumi  # Asegúrate de que esto esté configurado correctamente
 
+      # Login en Pulumi
       - name: Login to Pulumi
         run: pulumi login --non-interactive --cloud-url https://api.pulumi.com
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
-        working-directory: pulumi  # Cambia al directorio correcto antes de ejecutar el comando
+        working-directory: pulumi  # Asegúrate de que esto esté configurado correctamente
 
+      # Seleccionar el stack de Pulumi
       - name: Select Pulumi Stack
         run: pulumi stack select rodrilapenta/rog-ally-game-profiles/dev
-        working-directory: pulumi  # Cambia al directorio correcto antes de ejecutar el comando
+        working-directory: pulumi  # Asegúrate de que esto esté configurado correctamente
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
 
+      # Ejecutar Pulumi Up
       - name: Pulumi Up
         run: pulumi up --yes
-        working-directory: pulumi  # Cambia al directorio correcto antes de ejecutar el comando
+        working-directory: pulumi  # Asegúrate de que esto esté configurado correctamente
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
