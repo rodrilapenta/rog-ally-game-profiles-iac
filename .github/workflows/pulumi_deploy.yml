@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch:  # Habilita la ejecución manual
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -17,11 +17,14 @@ jobs:
           node-version: '14'
       - name: Install Dependencies
         run: npm install
+        working-directory: pulumi  # Cambia al directorio correcto donde está Pulumi.yaml
       - name: Login to Pulumi
-        env:
-          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
         run: pulumi login --non-interactive --cloud-url https://api.pulumi.com
-      - name: Pulumi Up
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+        working-directory: pulumi  # Cambia al directorio correcto donde está Pulumi.yaml
+      - name: Pulumi Up
         run: pulumi up --yes
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+        working-directory: pulumi  # Cambia al directorio correcto donde está Pulumi.yaml
