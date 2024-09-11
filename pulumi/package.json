@@ -1,0 +1,19 @@
+{
+  "name": "rog-ally-game-profiles",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "deploy": "pulumi up"
+  },
+  "dependencies": {
+    "@pulumi/pulumi": "^3.0.0",
+    "@pulumi/gcp": "^6.0.0",
+    "firebase-admin": "^10.0.0",
+    "firebase-functions": "^3.15.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.0.0"
+  }
+}

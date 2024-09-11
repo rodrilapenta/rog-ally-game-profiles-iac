@@ -1,0 +1,4 @@
+
+config:
+  gcp:project: rog-ally-game-profiles
+  gcp:region: us-central1
