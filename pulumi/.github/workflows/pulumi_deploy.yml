@@ -24,7 +24,7 @@ jobs:
         run: npm install
         working-directory: pulumi
 
-      # Compilar TypeScript para que la salida esté en dist/
+      # Compilar TypeScript
       - name: Build TypeScript
         run: npm run build
         working-directory: pulumi
@@ -48,9 +48,9 @@ jobs:
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
 
-      # Ejecutar Pulumi Up apuntando a dist/
+      # Ejecutar Pulumi Up
       - name: Pulumi Up
         run: pulumi up --yes
-        working-directory: pulumi/dist  # Cambia al directorio de salida de la compilación
+        working-directory: pulumi/dist  # Asegúrate de que esta ruta sea correcta
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
