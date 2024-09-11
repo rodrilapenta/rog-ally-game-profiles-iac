@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch:  # Esto habilita la ejecución manual
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -17,11 +17,22 @@ jobs:
           node-version: '14'
       - name: Install Dependencies
         run: npm install
+        working-directory: pulumi
+      - name: Build TypeScript
+        run: npm run build  # Asegúrate de compilar TypeScript
+        working-directory: pulumi
       - name: Login to Pulumi
         run: pulumi login --non-interactive --cloud-url https://api.pulumi.com
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+        working-directory: pulumi
+      - name: Select Pulumi Stack
+        run: pulumi stack select rodrilapenta/rog-ally-game-profiles/dev
+        working-directory: pulumi
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
       - name: Pulumi Up
-        run: pulumi up --yes
+        run: npm run deploy  # Utiliza el script de deploy
+        working-directory: pulumi
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}

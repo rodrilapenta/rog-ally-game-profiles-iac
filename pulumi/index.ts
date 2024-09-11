@@ -19,7 +19,9 @@ const enabledServices = services.map(service =>
 const firestoreDatabase = new gcp.firestore.Database("firestoreDatabase", {
     project: project.projectId,
     locationId: "us-central",
+    type: "NATIVE",  // Asegúrate de agregar el tipo requerido
 });
+
 
 const rogAllyCollection = new gcp.firestore.Collection("rogAlly", {
     database: firestoreDatabase.name,
