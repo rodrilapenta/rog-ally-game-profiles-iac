@@ -22,9 +22,14 @@ jobs:
         run: pulumi login --non-interactive --cloud-url https://api.pulumi.com
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
-        working-directory: pulumi  # Cambia al directorio correcto donde está Pulumi.yaml
-      - name: Pulumi Up
-        run: pulumi up --yes
+        working-directory: pulumi
+      - name: Select Pulumi Stack
+        run: pulumi stack select rodrilapenta/rog-ally-game-profiles/dev  # Asegúrate de usar el nombre correcto del stack
+        working-directory: pulumi
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
-        working-directory: pulumi  # Cambia al directorio correcto donde está Pulumi.yaml
+      - name: Pulumi Up
+        run: pulumi up --yes
+        working-directory: pulumi
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
